@@ -5,8 +5,11 @@ import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.github_api.model.Repositories;
+import com.example.github_api.model.repo.ExampleAdapter;
 import com.example.github_api.model.repo.Repo;
 
 import java.util.ArrayList;
@@ -18,6 +21,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
     private TextView textViewResults;
 
     @Override
@@ -25,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textViewResults = findViewById(R.id.textThingy);
+        textViewResults = findViewById(R.id.header);//textThingy je bilo
 
         retrofitSetup();
     }
@@ -47,12 +53,14 @@ public class MainActivity extends AppCompatActivity {
 
                 ArrayList<Repo> repos = response.body().getRepo();
 
-                for(int i = 0; i<repos.size(); i++){
+                /*for(int i = 0; i<repos.size(); i++){
                     Log.d("Ispis",
                             "Name: " + repos.get(i).getTitle() + "\n" +
                             "Stars: " + repos.get(i).getStars() + "\n" +
                             "ImageURL: " + repos.get(i).getOwner() + "\n");
-                }
+                }*/
+
+                recyclerviewSetup(repos);
 
             }
 
@@ -61,5 +69,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Error","onFailure: Something went wrong: " + t.getMessage());
             }
         });
+    }
+
+    void recyclerviewSetup(ArrayList<Repo> repos){
+        /*
+        ArrayList<Items> itemsList = new ArrayList<>();
+        itemsList.add(new Items("URL.neki", "Linija jedan", "10502"));
+        itemsList.add(new Items("URL.neki", "Linija dva", "10932"));
+        itemsList.add(new Items("URL.neki", "Linija tri", "12504"));*/
+
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new ExampleAdapter(repos,this);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 }
