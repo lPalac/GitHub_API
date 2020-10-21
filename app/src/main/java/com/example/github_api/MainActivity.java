@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.github_api.model.Items;
 import com.example.github_api.model.Repositories;
 import com.example.github_api.model.repo.Repo;
 
@@ -25,9 +26,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textViewResults = findViewById(R.id.textThingy);
+        textViewResults = findViewById(R.id.textView);//textThingy je bilo
 
         retrofitSetup();
+
+        ArrayList<Items> itemsList = new ArrayList<>();
+        itemsList.add(new Items("URL.neki", "Linija jedan", "10502"));
+        itemsList.add(new Items("URL.neki", "Linija dva", "10932"));
+        itemsList.add(new Items("URL.neki", "Linija tri", "12504"));
+
     }
 
     void retrofitSetup() {
